@@ -1,4 +1,4 @@
-# Singly LinkedList
+# Singly LinkedList && Big-O
 
 - a stupid way
 ```js
@@ -72,12 +72,13 @@ list.push('Hello');
 list.push('World');
 list.push('!');
 list.traverse();
-/* 
+
+//output:
 Hello
 World
 !
-*/
 ```
+---
 
 # Popping
 `Removing a` **node** `from the end of the Linked List`
@@ -104,6 +105,7 @@ World
 // since the when current.next == null, stop wihlie loop, that means 
 // tempTail stop at penult. The current stop at the last node
 ```
+---
 
 - updating pop() function
 ```js
@@ -142,13 +144,14 @@ list.pop();
 list.pop();
 list.pop();
 console.log(list);
-/* 
+
+/* output: */
 Hello
 World
 !
 SinglyLinkedList { head: null, tail: null, length: 0 }
-*/
 ```
+---
 
 # Shifting pseudocode
 - If there are no nodes, return undefined
@@ -172,8 +175,8 @@ console.log(list)
 list.shift();
 console.log(list)
 
-/* 
-output:
+ 
+//output:
 
 SinglyLinkedList {
   head: Node { val: 'World', next: Node { val: '!', next: null } },
@@ -186,8 +189,8 @@ SinglyLinkedList {
   length: 1
 }
 SinglyLinkedList { head: null, tail: null, length: 0 }
-*/
 ```
+---
 
 # Unshifting        (insertFirst)
 - Adding a new node to the beginning of the Linked List!
@@ -219,14 +222,15 @@ list.unshift("2");
 list.unshift("3");
 console.log(list);
 
-/* 
+//output:
+
 SinglyLinkedList {
   head: Node { val: '3', next: Node { val: '2', next: [Node] } },
   tail: Node { val: '1', next: [Circular] },
   length: 3
 }
-*/
 ```
+---
 
 # Getter
 - Retrieving a **node** by its position in the Linked List
@@ -256,10 +260,11 @@ list.push(":(");
 var ptr = list.get(4);
 console.log(ptr.val);
 
-/* 
+//output:
+
 :(
-*/
 ```
+---
 
 # Set Value
 `Changing the value of a node based on its position in the Linked List`
@@ -287,15 +292,15 @@ list.set(2, "😄");
 console.log(list.get(2).val);
 list.set(3, "👽");
 console.log(list.get(3).val);
-/*
+
+//output:
 
 !!!
 ***
 😄
 👽
-
-*/
 ```
+---
 
 # Insert
 `Adding a node to the Linked List at a specific position`
@@ -309,8 +314,185 @@ console.log(list.get(3).val);
 - Set the next property on the new node to be the previous next 
 - Increment the length
 - Return true
+```js
+    insert(index, value){
+        if(index<0 || index>this.length){
+            return false;
+        }
+        if(index === this.length){
+            return this.push(value);
+        }
+        if(index === 0){
+            return this.unshift(value);
+        }
+        var newNode = new Node(value);
+        var prev = this.get(index-1);
+        var temp = prev.next;
+        prev.next = newNode;
+        newNode.next = temp;
+        this.length++;
+        return true;
+    }
+
+list.push(100);
+list.push(201);
+list.push(250);
+list.push(350);
+list.insert(1, "😄");
+console.log(list.get(1).val);
+list.insert(1, "火星人");
+console.log(list.get(1).val);
+console.log(list.length); //6
+list.insert(6, "大前端！");
+console.log(list.get(6).val);
+console.log(list.insert(8, "🍉")); //false
+
+//output:
+😄
+火星人
+6
+大前端！
+false
+```
+---
 
 
+
+# Remove
+`Removing a node from the linked list at a` **specific** position
+
+`Remove pseudocode`
+- if the index is less than zero or greater then the length, return undefined
+- if the index is the same as the length-1, pop
+- if the index is 0, shift
+- Otherwise, using the **get** method, access the node at the index-1
+- Set the next property on that node to be the next of the next node
+- Decrement the length
+- Return the value of the node removed
+```js
+    remove(index){
+        if(index<0 || index>= this.length){
+            return undefined;
+        }
+        if(index === 0){
+            return this.shift(index);
+        }
+        if(index === this.length-1){
+            return this.pop();
+        }
+        var previousNode = this.get(index - 1);
+        var removed = previousNode.next;
+        previousNode.next = removed.next;
+        this.length--;
+        return removed;
+    }
+
+list.push(100);
+list.push(201);
+list.push("😄");
+list.push("火星人");
+list.push("大前端！");
+list.push("🍉");
+list.push("💻");
+console.log(list.length);
+console.log(list.remove(0).val);
+console.log(list.remove(0).val);
+console.log(list.remove(0).val);
+console.log(list.remove(0).val);
+console.log(list.remove(0).val);
+console.log(list.remove(0).val);
+console.log(list.remove(0).val);
+console.log(list.remove(0)); //undefined
+
+
+// output:
+7
+100
+201
+😄
+火星人
+大前端！
+🍉
+💻
+undefined
+```
+---
+
+
+
+# Reverse
+`Reversing the linked list` **in place!**
+
+`Reverse pseudocode`
+- swap the head and tail
+- create a variable called next
+- create a variable called prev
+- create a variable called node and initialize it to the head property
+- Loop through the list
+- set next to be the next property on whatever prev is
+- set prev to be the value of the node variable
+- set the node variable to be the value of the next variable
+
+`firsly, adding a print method`
+```js
+    print(){
+        var arr = [];
+        var current = this.head;
+        while(current){
+            arr.push(current.val);
+            current = current.next;
+        }
+        console.log(arr);
+    }
+```
+
+`implementing the reverse function`
+```js
+   reverse(){
+        var node = this.head;
+        this.head = this.tail;
+        this.tail = node;
+
+        var next;
+        var prev= null;
+        for(var i=0; i<this.length; i++){
+            next = node.next;
+            node.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+    }
+
+list.push(100);
+list.push(201);
+list.push("😄");
+list.push("火星人");
+list.push("大前端！");
+list.push("🍉");
+list.push("💻");
+list.reverse();
+list.print();
+
+// output:
+[
+  '💻',   
+  '🍉',
+  '大前端！', 
+  '火星人',
+  '😄',   
+  201,
+  100
+]
+```
+
+
+# Big O
+
+- Insertion  **O(1)**
+- Removal  **It depends...O(1) or O(n)**
+- Searching  **O(n)**
+- Access  **O(n)**
 
 
 

@@ -132,6 +132,50 @@ class SinglyLinkedList {
         return true;
     }
 
+    remove(index){
+        if(index<0 || index>= this.length){
+            return undefined;
+        }
+        if(index === 0){
+            return this.shift(index);
+        }
+        if(index === this.length-1){
+            return this.pop();
+        }
+        var previousNode = this.get(index - 1);
+        var removed = previousNode.next;
+        previousNode.next = removed.next;
+        this.length--;
+        return removed;
+    }
+
+    reverse(){
+        var node = this.head;
+        this.head = this.tail;
+        this.tail = node;
+
+        var next;
+        var prev= null;
+        for(var i=0; i<this.length; i++){
+            next = node.next;
+            node.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+    }
+
+
+
+    print(){
+        var arr = [];
+        var current = this.head;
+        while(current){
+            arr.push(current.val);
+            current = current.next;
+        }
+        console.log(arr);
+    }
 }
 
 var list = new SinglyLinkedList();
@@ -139,6 +183,9 @@ var list = new SinglyLinkedList();
 // list.push('World');
 // list.push('!');
 // list.traverse();
+
+
+
 
 
 
@@ -150,18 +197,29 @@ var list = new SinglyLinkedList();
 // console.log(list);
 
 
+
+
+
+
 // list.shift();
 // console.log(list)
 // list.shift();
 // console.log(list)
 // list.shift();
 // console.log(list)
+
+
+
+
+
 
 
 // list.unshift("1");
 // list.unshift("2");
 // list.unshift("3");
 // console.log(list);
+
+
 
 
 
@@ -173,6 +231,11 @@ var list = new SinglyLinkedList();
 //var ptr = list.get(4);
 //console.log(ptr.val);
 
+
+
+
+
+
 // list.set(0, "!!!");
 // console.log(list.get(0).val);
 // list.set(1, "***");
@@ -182,8 +245,61 @@ var list = new SinglyLinkedList();
 // list.set(3, "👽");
 // console.log(list.get(3).val);
 
+
+
+
+
+
+
+// list.push(100);
+// list.push(201);
+// list.push(250);
+// list.push(350);
+// list.insert(1, "😄");
+// console.log(list.get(1).val);
+// list.insert(1, "火星人");
+// console.log(list.get(1).val);
+// console.log(list.length); //6
+// list.insert(6, "大前端！");
+// console.log(list.get(6).val);
+// console.log(list.insert(8, "🍉")); //false
+
+
+
+
+
+
+
+// list.push(100);
+// list.push(201);
+// list.push("😄");
+// list.push("火星人");
+// list.push("大前端！");
+// list.push("🍉");
+// list.push("💻");
+// console.log(list.length);
+// console.log(list.remove(0).val);
+// console.log(list.remove(0).val);
+// console.log(list.remove(0).val);
+// console.log(list.remove(0).val);
+// console.log(list.remove(0).val);
+// console.log(list.remove(0).val);
+// console.log(list.remove(0).val);
+// console.log(list.remove(0)); //undefined
+
+
+
+
+
+
+
+
 list.push(100);
 list.push(201);
-list.push(250);
-list.push(350);
-list.insert(1, "😄");
+list.push("😄");
+list.push("火星人");
+list.push("大前端！");
+list.push("🍉");
+list.push("💻");
+list.reverse();
+list.print();
